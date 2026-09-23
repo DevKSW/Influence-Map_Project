@@ -1,15 +1,17 @@
+using System;
 using System.Collections.Generic;
+using UnityEngine.Animations;
 
 namespace InfluenceMap
 {
     public interface IInfluenceMap<T> where T : struct
     {
-        protected int Witdh { get; }
-        protected int Height { get; }
+        public int Witdh { get; }
+        public int Height { get; }
 
-        protected T[][] Map { get; }
+        public T[][] Map { get; }
 
-
+        public void ClearInfluence();
         public bool ChangeInfluence(int posX , int posY, T influenceData);
 
         public bool ShowInfluence();
@@ -25,18 +27,13 @@ namespace InfluenceMap
 
         bool Enable { get; }
 
-
+        InfluenceCalcModule<T> CalcMoudule { get; }
 
     }
 
-    public static class InfluenceSpreader
+    public interface  InfluenceCalcModule<T> where T : struct
     {        
-        
-    }
-
-    public abstract class InfluenceCalcModule <T> where T : struct
-    {
-        public abstract bool InfluenceFunc(int posX, int posY,int range, T Influence, IInfluenceMap<T> map);
+        public  bool InfluenceFunc(IInfluenceObj<T> obj, IInfluenceMap<T> map, int range = 5);
     }
 
 }
